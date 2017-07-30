@@ -1,33 +1,70 @@
 var express = require("express");
 var bodyParser = require('body-parser');
-var mysql = require('mysql-wrapper');
-var dbconfig = require('./databases.js');
 var main = require('./routes/main');
+var passport = require('passport')
+  , LocalStrategy = require('passport-local').Strategy;
+var cookieSession = require('cookie-session');
+var flash = require('connect-flash');
+var jsalert = require('js-alert');
+
+var mysql = require('mysql-wrapper');
+var dbconfig2 = require('./databases_login.js');
 
 var app = express();
 
+app.use(flash());
+app.use(cookieSession({
+  keys: ['node_jaejin'],
+  cookie: {
+    maxAge: 1000 * 60 * 60 // 유효기간 1시간
+  }
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 //var connection = mysql.createConnection(dbconfig);
-
-var connection = mysql(dbconfig);
-
-var num = [];
-var h_solar_rad = [];
-var s_solar_rad = [];
-var module_temp = [];
-var ambient_temp = [];
-var co2 = [];
-var gyro_x = [];
-var gyro_y = [];
-var gyro_z = [];
-var r_phase_current = [];
-var s_phase_current = [];
-var t_phase_current = [];
+var connection = mysql(dbconfig2);
 
 
+//connection.connect();
+
+
+passport.use(new LocalStrategy({
+  usernameField: 'username',
+  passwordField: 'password',
+  passReqToCallback: true //인증을 수행하는 인증 함수로 HTTP request를 그대로  전달할지 여부를 결정한다
+}, function (req, username, password, done) {
+  connection.query('select * from solar_webserver where user_id in ('+ "'" +username + "'" +')',function(err,result){
+    console.log(result);
+    if(result && result.length > 0){
+      var userid = result[0].user_id;
+      return done(null,{
+        'user_id': userid
+      })
+    }else{
+      console.log('유저정보가 없습니다. ')
+      return done(null, false)
+    }
+    console.log(err)
+  });
+
+}));
+
+
+passport.serializeUser(function (user, done) {
+  done(null, user)
+  console.log('serializeUser');
+
+});
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+  console.log('deserializeUser');
+});
 
 app.listen(process.env.PORT, function(){
   console.log('Connected!!!');
 })
+
 
 app.locals.pretty = true;
 app.use(bodyParser.urlencoded({extended: false}));
@@ -37,86 +74,27 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
-app.get('/', function(req, res){
-  //connection.connect();
-  connection.query('select * from test3 order by num desc limit 7',{}, function(err, result){
-    for(var i =0; i < 7; i++){
-      if(result && result.length >0){
-        num.push(result[i].num);
-        h_solar_rad.push(result[i].h_solar_rad);
-        s_solar_rad.push(result[i].s_solar_rad);
-        module_temp.push(result[i].module_temp);
-        ambient_temp.push(result[i].ambient_temp);
-        co2.push(result[i].co2);
-        gyro_x.push(result[i].gyro_x);
-        gyro_y.push(result[i].gyro_y);
-        gyro_z.push(result[i].gyro_z);
-        r_phase_current.push(result[i].r_phase_current);
-        s_phase_current.push(result[i].s_phase_current);
-        t_phase_current.push(result[i].t_phase_current);
-      }
-    }
-    console.log(err)
+app.get('/chart', main.chart_dbconnect);
+
+app.post('/login',passport.authenticate('local', {
+    successRedirect: '/chart',
+    failureRedirect: '/login',
+    failureFlash: true
+  }),function(req,res){
 });
-  /*function(err, result) {
-    if(err) throw err;
 
+//app.get('/chart', main.chartview);
+app.get('/login',function(req, res){
 
-    for(var i =0; i < 7; i++){
-      if(result && result.length >0){
-        num.push(result[i].num);
-        h_solar_rad.push(result[i].h_solar_rad);
-        s_solar_rad.push(result[i].s_solar_rad);
-        module_temp.push(result[i].module_temp);
-        ambient_temp.push(result[i].ambient_temp);
-        co2.push(result[i].co2);
-        gyro_x.push(result[i].gyro_x);
-        gyro_y.push(result[i].gyro_y);
-        gyro_z.push(result[i].gyro_z);
-        r_phase_current.push(result[i].r_phase_current);
-        s_phase_current.push(result[i].s_phase_current);
-        t_phase_current.push(result[i].t_phase_current);
-      }
-    }
-    for (var i = 0; i < num.length; i++) {
-      console.log(num[i]);
-    }
+  res.render('login',{})
 
-  });*/
+});
 
-
-
-
-  res.render('chart',{
-    num: num,
-    h_solar_rad: h_solar_rad,
-    s_solar_rad: s_solar_rad,
-    module_temp: module_temp,
-    ambient_temp: ambient_temp,
-    co2: co2,
-    gyro_x: gyro_x,
-    gyro_y: gyro_y,
-    gyro_z: gyro_z,
-    r_phase_current: r_phase_current,
-    s_phase_current: s_phase_current,
-    t_phase_current: t_phase_current
-  })
-  num = [];
-  h_solar_rad = [];
-  s_solar_rad = [];
-  module_temp = [];
-  ambient_temp = [];
-  co2 = [];
-  gyro_x = [];
-  gyro_y = [];
-  gyro_z = [];
-  r_phase_current = [];
-  s_phase_current = [];
-  t_phase_current = [];
-
-})
-
-app.get('/chart', main.chartview);
+app.get('/logout', function (req, res) {
+  jsalert.alert("로그아웃 되었습니다.");
+  req.logout();
+  res.redirect('/login');
+});
 
 app.listen(3000,function(){
   console.log('conneted 3000 port!')

@@ -4,10 +4,17 @@
   "description": "solar_webserver",
   "main": "app.js",
   "dependencies": {
+    "alert-node": "^0.2.1",
     "body-parser": "^1.17.2",
+    "connect-flash": "^0.1.1",
+    "cookie-session": "^2.0.0-beta.2",
     "ejs": "^2.5.6",
     "express": "^4.15.3",
+    "express-session": "^1.15.4",
+    "js-alert": "^1.0.4",
     "mysql-wrapper": "^0.1.1",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
     "pug": "^2.0.0-rc.2",
     "supervisor": "^0.12.0",
     "underscore": "^1.8.3"

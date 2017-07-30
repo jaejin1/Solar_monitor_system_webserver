@@ -10,6 +10,9 @@
 <title>UNC Chart test</title>
 	<script src="./js/chart.bundle.js"></script>
 	<script src="./js/utils.js"></script>
+	<script>
+		setTimeout("location.reload()",6000);
+	</script>
 	<style>
 		canvas{
 			-moz-user-select: none;
@@ -39,7 +42,8 @@
 </head>
 
 <body>
-
+	<h1> 어서오세용 <%= userid %> 님 </h1>
+	<a href="/logout">로그아웃</a>
 	<div id="canvas-holder1" style="width:70%;">
 		<canvas id="solar_rad"/>
 	</div>
