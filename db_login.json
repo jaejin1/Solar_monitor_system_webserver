@@ -1,6 +1,6 @@
 {
   "host": "localhost",
-  "user": "root",
-  "password": "",
+  "user": "user2",
+  "password": "user2",
   "databases": "solar_webserver"
 }

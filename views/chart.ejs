@@ -11,7 +11,7 @@
 	<script src="./js/chart.bundle.js"></script>
 	<script src="./js/utils.js"></script>
 	<script>
-		setTimeout("location.reload()",6000);
+		setTimeout("location.reload()",60000);
 	</script>
 	<style>
 		canvas{
@@ -133,20 +133,25 @@
 		};
 
 		var lineChartData1 = { // solar_rad
-			labels: ["00", "04", "08", "12", "16", "20", "24"],
+			labels: ["11", "12", "13", "14", "15", "16", "17"],
+
 			datasets: [{
-				label: "h_solar_rad",
-				borderColor: window.chartColors.red,
-				pointBackgroundColor: window.chartColors.red,
+				label: "Horizontal Solar Irradiance",
+				pointStyle: 'triangle',
+				borderColor: window.chartColors.black,
+				pointBackgroundColor: window.chartColors.black,
+				backgroundColor: window.chartColors.black,
 				fill: false,
 				data: [
 					<%= h_solar_rad %>
 
 				]
 			}, {
-				label: "s_solar_rad",
-				borderColor: window.chartColors.blue,
-				pointBackgroundColor: window.chartColors.blue,
+				label: "Slope Solar Irradiance",
+				pointStyle: 'rect',
+				borderColor: window.chartColors.grey,
+				pointBackgroundColor: window.chartColors.grey,
+				backgroundColor: window.chartColors.grey,
 				fill: false,
 				data: [
 					<%= s_solar_rad %>
@@ -155,19 +160,23 @@
 			}]
 		};
 		var lineChartData2 = {  // temp
-			labels: ["00", "04", "08", "12", "16", "20", "24"],
+			labels: ["11", "12", "13", "14", "15", "16", "17"],
 			datasets: [{
-				label: "module_temp",
-				borderColor: window.chartColors.red,
-				pointBackgroundColor: window.chartColors.red,
+				label: "Air Temperature",
+				pointStyle: 'triangle',
+				borderColor: window.chartColors.black,
+				pointBackgroundColor: window.chartColors.black,
+				backgroundColor: window.chartColors.black,
 				fill: false,
 				data: [
 					<%= module_temp %>
 				]
 			}, {
-				label: "ambient_temp",
-				borderColor: window.chartColors.blue,
-				pointBackgroundColor: window.chartColors.blue,
+				label: "Module Temperature",
+				pointStyle: 'rect',
+				borderColor: window.chartColors.grey,
+				pointBackgroundColor: window.chartColors.grey,
+				backgroundColor: window.chartColors.grey,
 				fill: false,
 				data: [
 					<%= ambient_temp %>
@@ -175,11 +184,13 @@
 			}]
 		};
 		var lineChartData3 = {  // co2
-			labels: ["00", "04", "08", "12", "16", "20", "24"],
+			labels: ["11", "12", "13", "14", "15", "16", "17"],
 			datasets: [{
 				label: "Co2",
-				borderColor: window.chartColors.red,
-				pointBackgroundColor: window.chartColors.red,
+				pointStyle: 'triangle',
+				borderColor: window.chartColors.black,
+				pointBackgroundColor: window.chartColors.black,
+				backgroundColor: window.chartColors.black,
 				fill: false,
 				data: [
 					<%= co2 %>
@@ -187,27 +198,32 @@
 			}]
 		};
 		var lineChartData4 = {  // x_y_z
-			labels: ["00", "04", "08", "12", "16", "20", "24"],
+			labels: ["11", "12", "13", "14", "15", "16", "17"],
 			datasets: [{
-				label: "gyro_x",
-				borderColor: window.chartColors.yellow,
-				pointBackgroundColor: window.chartColors.yellow,
+				label: "X-Coordinate",
+				pointStyle: 'triangle',
+				borderColor: window.chartColors.black,
+				pointBackgroundColor: window.chartColors.black,
+				backgroundColor: window.chartColors.black,
 				fill: false,
 				data: [
 					<%= gyro_x %>
 				]
 			},{
-				label: "gyro_y",
-				borderColor: window.chartColors.red,
-				pointBackgroundColor: window.chartColors.red,
+				label: "Y-Coordinate",
+				pointStyle: 'rect',
+				borderColor: window.chartColors.black,
+				pointBackgroundColor: window.chartColors.black,
+				backgroundColor: window.chartColors.black,
 				fill: false,
 				data: [
 					<%= gyro_y %>
 				]
 			}, {
-				label: "gyro_z",
-				borderColor: window.chartColors.blue,
-				pointBackgroundColor: window.chartColors.blue,
+				label: "Z-Coordinate",
+				borderColor: window.chartColors.black,
+				pointBackgroundColor: window.chartColors.black,
+				backgroundColor: window.chartColors.black,
 				fill: false,
 				data: [
 					<%= gyro_z %>
@@ -215,7 +231,7 @@
 			}]
 		};
 		var lineChartData5 = {  // current
-			labels: ["00", "04", "08", "12", "16", "20", "24"],
+			labels: ["11", "12", "13", "14", "15", "16", "17"],
 			datasets: [{
 				label: "r_phase_current",
 				borderColor: window.chartColors.yellow,
@@ -256,13 +272,41 @@
 				options: {
 					title:{
 						display:true,
-						text:'Solar_rad'
+						text:'Solar Irradiance',
+						fontSize: 24,
+						fontColor: 'rgb(0,0,0)'
+					},
+					scales: {
+						yAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'Solar Irradiance',
+								fontSize: 18,
+								fontColor: 'rgb(0,0,0)'
+							}
+						}],
+						xAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'Time',
+								fontSize: 18,
+								fontColor: 'rgb(0,0,0)'
+							}
+						}]
 					},
 					tooltips: {
 						enabled: false,
 						mode: 'index',
 						position: 'nearest',
 						custom: customTooltips
+					},
+					legend: {
+						display: true,
+						labels: {
+							fontSize: 18,
+							fontColor: 'rgb(0,0,0)',
+							usePointStyle: true
+						}
 					}
 				}
 			});
@@ -272,13 +316,41 @@
 				options: {
 					title:{
 						display:true,
-						text:'Temp'
+						text:'Temperature',
+						fontSize: 24,
+						fontColor: 'rgb(0,0,0)'
+					},
+					scales: {
+						yAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'Temperature',
+								fontSize: 18,
+								fontColor: 'rgb(0,0,0)'
+							}
+						}],
+						xAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'Time',
+								fontSize: 18,
+								fontColor: 'rgb(0,0,0)'
+							}
+						}]
 					},
 					tooltips: {
 						enabled: false,
 						mode: 'index',
 						position: 'nearest',
 						custom: customTooltips
+					},
+					legend: {
+						display: true,
+						labels: {
+							fontSize: 18,
+							fontColor: 'rgb(0,0,0)',
+							usePointStyle: true
+						}
 					}
 				}
 			});
@@ -288,13 +360,41 @@
 				options: {
 					title:{
 						display:true,
-						text:'Co2'
+						text:'Co2',
+						fontSize: 24,
+						fontColor: 'rgb(0,0,0)'
+					},
+					scales: {
+						yAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'Co2',
+								fontSize: 18,
+								fontColor: 'rgb(0,0,0)'
+							}
+						}],
+						xAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'Time',
+								fontSize: 18,
+								fontColor: 'rgb(0,0,0)'
+							}
+						}]
 					},
 					tooltips: {
 						enabled: false,
 						mode: 'index',
 						position: 'nearest',
 						custom: customTooltips
+					},
+					legend: {
+						display: true,
+						labels: {
+							fontSize: 18,
+							fontColor: 'rgb(0,0,0)',
+							usePointStyle: true
+						}
 					}
 				}
 			});
@@ -304,13 +404,40 @@
 				options: {
 					title:{
 						display:true,
-						text:'x_y_z'
+						text:'Tile',
+						fontSize:24,
+						fontColor: 'rgb(0,0,0)'
+					},scales: {
+						yAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'Tilt',
+								fontSize: 18,
+								fontColor: 'rgb(0,0,0)'
+							}
+						}],
+						xAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'Time',
+								fontSize: 18,
+								fontColor: 'rgb(0,0,0)'
+							}
+						}]
 					},
 					tooltips: {
 						enabled: false,
 						mode: 'index',
 						position: 'nearest',
 						custom: customTooltips
+					},
+					legend: {
+						display: true,
+						labels: {
+							fontSize: 18,
+							fontColor: 'rgb(0,0,0)',
+							usePointStyle: true
+						}
 					}
 				}
 			});
@@ -320,13 +447,41 @@
 				options: {
 					title:{
 						display:true,
-						text:'Phase_current'
+						text:'Phase_current',
+						fontSize: 24,
+						fontColor: 'rgb(0,0,0)'
+					},
+					scales: {
+						yAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'probability',
+								fontSize: 20,
+								fontColor: 'rgb(0,0,0)'
+							}
+						}],
+						xAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'probability',
+								fontSize: 20,
+								fontColor: 'rgb(0,0,0)'
+							}
+						}]
 					},
 					tooltips: {
 						enabled: false,
 						mode: 'index',
 						position: 'nearest',
 						custom: customTooltips
+					},
+					legend: {
+						display: true,
+						labels: {
+							fontSize: 18,
+							fontColor: 'rgb(0,0,0)',
+							usePointStyle: true
+						}
 					}
 				}
 			});

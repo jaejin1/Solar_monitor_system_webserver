@@ -48,10 +48,13 @@ exports.chart_dbconnect = function(req, res){
 
   console.log(req.session);
   console.log(req.session.passport.user.user_id);
+  if(req.session.passport.user.user_id = null){
+    console.log()
+  }
 
   //connection.connect();
   connection.query('select * from test3 order by num desc limit 7',{}, function(err, result){
-    for(var i =0; i < 7; i++){
+    for(var i = 6; i > -1; i--){
       if(result && result.length >0){
         num.push(result[i].num);
         h_solar_rad.push(result[i].h_solar_rad);
