@@ -11,6 +11,8 @@
 	<script src="./js/utils.js"></script>
 	<script>
 		setTimeout("location.reload()",60000);
+		var d = new Date();
+
 	</script>
 	<style>
 		canvas{
@@ -132,7 +134,7 @@
 		};
 
 		var lineChartData1 = { // solar_rad
-			labels: ["11", "12", "13", "14", "15", "16", "17"],
+			labels: [d.getHours()-6, d.getHours()-5, d.getHours()-4, d.getHours()-3, d.getHours()-2, d.getHours()-1, d.getHours()],
 
 			datasets: [{
 				label: "Horizontal Solar Irradiance",
@@ -159,7 +161,7 @@
 			}]
 		};
 		var lineChartData2 = {  // temp
-			labels: ["11", "12", "13", "14", "15", "16", "17"],
+			labels: [d.getHours()-6, d.getHours()-5, d.getHours()-4, d.getHours()-3, d.getHours()-2, d.getHours()-1, d.getHours()],
 			datasets: [{
 				label: "Air Temperature",
 				pointStyle: 'triangle',
@@ -183,7 +185,7 @@
 			}]
 		};
 		var lineChartData3 = {  // co2
-			labels: ["11", "12", "13", "14", "15", "16", "17"],
+			labels: [d.getHours()-6, d.getHours()-5, d.getHours()-4, d.getHours()-3, d.getHours()-2, d.getHours()-1, d.getHours()],
 			datasets: [{
 				label: "Co2",
 				pointStyle: 'triangle',
@@ -197,7 +199,7 @@
 			}]
 		};
 		var lineChartData4 = {  // x_y_z
-			labels: ["11", "12", "13", "14", "15", "16", "17"],
+			labels: [d.getHours()-6, d.getHours()-5, d.getHours()-4, d.getHours()-3, d.getHours()-2, d.getHours()-1, d.getHours()],
 			datasets: [{
 				label: "X-Coordinate",
 				pointStyle: 'triangle',
@@ -230,7 +232,7 @@
 			}]
 		};
 		var lineChartData5 = {  // current
-			labels: ["11", "12", "13", "14", "15", "16", "17"],
+			labels: [d.getHours()-6, d.getHours()-5, d.getHours()-4, d.getHours()-3, d.getHours()-2, d.getHours()-1, d.getHours()],
 			datasets: [{
 				label: "r_phase_current",
 				borderColor: window.chartColors.yellow,
